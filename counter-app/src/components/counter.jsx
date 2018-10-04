@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 class Counter extends Component {
-  state = {
-    value: this.props.counter.value,
-    // imgUrl: 'https://picsum.photos/200',
-    tags: []
-  }
+  // state = {
+  //   value: this.props.counter.value,
+  //   // imgUrl: 'https://picsum.photos/200',
+  //   tags: []
+  // }
   //   constructor() {
   //     super()
   //     this.handleIncrement = this.handleIncrement.bind(this)
@@ -27,23 +27,33 @@ class Counter extends Component {
   //       </ul>
   //     )
   //   }
-  handleIncrement() {
-    // console.log(product)
-    this.setState({ value: this.state.value + 1 })
-  }
+
+  // handleIncrement() { // this function can only handle this local value and it cannot be apply to the father component
+  //   // console.log(product)
+  //   this.setState({ value: this.state.value + 1 })
+  // }
 
   // Arrow Function can avoid bind and assign this to this function
   //   handleIncrement = () => {
   //     console.log('Increment Clicked', this)
   //   }
+  componentDidUpdate(prevPros, prevState) {
+    console.log('prevPros', prevPros);
+    console.log('prevState', prevState);
+  }
+  componentWillUnmount() {
+    console.log('component - unmounted');
+  }
   render() {
+    console.log('Counter - rendered');
+
     return (
       <div>
         {/* <img src={this.state.imgUrl} alt="testImage" /> */}
         <h4>Counter# {this.props.counter.id}</h4>
         <span className={this.getBadgeClass()}>{this.formatCount()}</span>
         <button
-          onClick={() => this.handleIncrement()}
+          onClick={() => this.props.onIncrement(this.props.counter)}
           className="btn btn-secondary btn-sm"
         >
           Increment
@@ -57,18 +67,18 @@ class Counter extends Component {
           Delete
         </button>
       </div>
-    )
+    );
   }
   getBadgeClass() {
-    let classes = 'badge m-2 badge-'
-    classes += this.state.value === 0 ? 'warning' : 'primary'
-    return classes
+    let classes = 'badge m-2 badge-';
+    classes += this.props.counter.value === 0 ? 'warning' : 'primary';
+    return classes;
   }
 
   formatCount() {
-    const { value } = this.state
-    return value === 0 ? 'Zero' : value
+    const { value } = this.props.counter;
+    return value === 0 ? 'Zero' : value;
   }
 }
 
-export default Counter
+export default Counter;
