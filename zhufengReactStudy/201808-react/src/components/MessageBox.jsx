@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import MessageList from './MessageList'
+import MessageForm from './MessageForm'
+import './MessageBox.css'
 class MessageBox extends Component {
   constructor() {
     super()
@@ -14,6 +16,19 @@ class MessageBox extends Component {
       ]
     }
   }
+  addMessage = message => {
+    //状态对象每次都要生成一个新对象，而不是在旧的对象上修改
+    let messages = [...this.state.messages, message]
+    this.setState({ messages })
+  }
+  deleteMessage = index => {
+    //先从数组中删除指定的元素
+    this.state.messages.splice(index, 1)
+    //修改状态
+    this.setState({
+      messages: [...this.state.messages]
+    })
+  }
   render() {
     return (
       <div className="container">
@@ -24,9 +39,14 @@ class MessageBox extends Component {
                 <h2 className="text-center">欢迎来到BHT留言板</h2>
               </div>
               <div className="panel-body">
-                <MessageList messages={this.state.messages} />
+                <MessageList
+                  messages={this.state.messages}
+                  deleteMessage={this.deleteMessage}
+                />
               </div>
-              <div className="panel-footer" />
+              <div className="panel-footer">
+                <MessageForm addMessage={this.addMessage} />
+              </div>
             </div>
           </div>
         </div>
