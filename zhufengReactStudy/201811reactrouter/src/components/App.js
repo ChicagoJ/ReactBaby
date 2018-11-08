@@ -12,6 +12,7 @@ import Profile from './Profile'
 import Login from './Login'
 import MenuList from './MenuList'
 import 'bootstrap/dist/css/bootstrap.css'
+import NotFound from './NotFound'
 export default (
   <Router>
     <div>
@@ -36,6 +37,7 @@ export default (
               <Route path="/User" component={User} />
               <Route path="/Login" component={Login} />
               <ProtectedRoute path="/Profile" component={Profile} />
+              <Route component={NotFound} />
             </Switch>
           </div>
         </div>
