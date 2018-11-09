@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { render } from 'react-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import Slider from './components/Slider'
+import Suggest from './components-1/1.Suggest'
 
 let IMAGE_DATA = [
   { src: require('./images/1.jpg') },
@@ -29,3 +30,4 @@ render(
   />,
   document.querySelector('#root')
 )
+// render(<Suggest />, window.app)

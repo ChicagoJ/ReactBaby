@@ -87,6 +87,7 @@ export default class Home extends Component {
               Print Age
             </button>
             <hr />
+            <h4>{this.state.homeLink}</h4>
             <input
               type="text"
               value={this.state.homeLink}

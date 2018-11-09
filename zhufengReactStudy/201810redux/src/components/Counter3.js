@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import connect from '../connect'
 import { INCREASE, DECREASE } from '../actions'
 class Counter2 extends Component {
   render() {

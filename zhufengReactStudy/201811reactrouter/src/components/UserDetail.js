@@ -9,6 +9,7 @@ class UserDetail extends Component {
     // transform to object user array转成对象数组
     let users = userStr ? JSON.parse(userStr) : []
     let user = users.find(user => user.id == id)
+    console.log(this.props)
 
     //history 跳转路由 路径
     //match匹配结果 如果匹配上就是对象，匹配不上就是null

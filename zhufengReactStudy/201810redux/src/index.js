@@ -1,14 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Counter from './components/Counter2'
-import { createStore } from './redux'
-import counter from './reducers/counter'
+import store from './store2'
 import Provider from './components/Provider'
-let store = createStore(counter)
-
+import Todo from './components/Todo'
 ReactDOM.render(
-  <Provider store={store}>
-    <Counter />
-  </Provider>,
+  // <Provider store={store}>
+  //   <Counter />
+  // </Provider>,
+  <Todo />,
   document.querySelector('#root')
 )
