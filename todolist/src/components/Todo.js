@@ -1,37 +1,40 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import TodoItem from './TodoItem';
 class Todo extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       inputValue: '',
       todos: ['Learn React', 'Prepare Interview']
-    }
+    };
   }
   handleSubmit = () => {
     if (this.todo.value !== null && this.todo.value.length > 0) {
-      this.setState({ todos: [...this.state.todos, this.todo.value] })
+      // setState 返回一个函数
+      this.setState(preState => ({
+        todos: [...preState.todos, preState.inputValue]
+      }));
     } else {
-      alert('Please enter a non-empty todo')
+      alert('Please enter a non-empty todo');
     }
-    this.todo.value = ''
-  }
+    this.todo.value = '';
+  };
   handleKeyDown = event => {
     if (event.keyCode === 13 && this.todo.value.length > 0) {
-      let todos = this.state.todos
-      todos.push(this.todo.value)
-      this.setState({ todos })
-      this.todo.value = ''
+      const todo = this.todo.value;
+      this.setState(preState => ({ todos: [...preState.todos, todo] }));
+      this.todo.value = '';
     }
-  }
-  handleChange = () => {
-    let inputValue = this.todo.value
-    this.setState({ inputValue })
-  }
+  };
+  handleChange = event => {
+    let inputValue = event.target.value;
+    this.setState({ inputValue });
+  };
   handleDelete = index => {
-    let todos = this.state.todos
-    todos.splice(index, 1)
-    this.setState({ todos })
-  }
+    let todos = this.state.todos;
+    todos.splice(index, 1);
+    this.setState({ todos });
+  };
   render() {
     return (
       <div>
@@ -45,19 +48,15 @@ class Todo extends Component {
           />
           <button onClick={this.handleSubmit}>Submit</button>
         </div>
-        <ul>
-          {this.state.todos.map((todo, index) => (
-            <li key={index}>
-              {todo}{' '}
-              <button onClick={() => this.handleDelete(index)}>Delete</button>
-            </li>
-          ))}
-          {/* two way binding
-          <li>{this.state.inputValue}</li> */}
-        </ul>
+        <div>
+          <TodoItem
+            todos={this.state.todos}
+            onDelete={this.handleDelete.bind(this)}
+          />
+        </div>
       </div>
-    )
+    );
   }
 }
 
-export default Todo
+export default Todo;
