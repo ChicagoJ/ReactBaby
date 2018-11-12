@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 
 class TodoItem extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.todos !== this.props.todos) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
     return (
       <ul>

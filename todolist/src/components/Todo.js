@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
 import TodoItem from './TodoItem';
+import Axios from 'axios';
+import App from './App';
+
 class Todo extends Component {
   constructor() {
     super();
     this.state = {
       inputValue: '',
-      todos: ['Learn React', 'Prepare Interview']
+      todos: []
     };
+  }
+  componentDidMount() {
+    Axios.get('/api/todoList')
+      .then(res => {
+        this.setState(() => ({
+          todos: res.data
+        }));
+      })
+      .catch(() => {
+        alert('error');
+      });
   }
   handleSubmit = () => {
     if (this.todo.value !== null && this.todo.value.length > 0) {
@@ -38,6 +52,7 @@ class Todo extends Component {
   render() {
     return (
       <div>
+        <App />
         <div>
           <input
             type="text"
