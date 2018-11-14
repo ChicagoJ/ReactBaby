@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-
-import { AppWrapper } from './style.js'
+import Header from './common/header'
+import { GlobleStyleFont } from './static/iconfont/iconfont'
 class App extends Component {
   render() {
     return (
-      <AppWrapper>
-        <div className="App">Hello World</div>
-      </AppWrapper>
+      <div>
+        <GlobleStyleFont />
+        <Header />
+      </div>
     )
   }
 }
