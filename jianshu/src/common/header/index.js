@@ -20,23 +20,54 @@ import { CSSTransition } from 'react-transition-group'
 
 class Header extends Component {
   getListArea = () => {
-    if (this.props.focused) {
+    const {
+      focused,
+      mouseEnter,
+      list,
+      page,
+      totalPage,
+      handleMouseEnter,
+      handleMouseLeave,
+      handleSwitch
+    } = this.props
+    const newList = list.toJS()
+    const pageList = []
+    if (newList.length) {
+      for (let i = (page - 1) * 10; i < page * 10; i++) {
+        if (i < newList.length) {
+          pageList.push(
+            <SearchInfoItem key={newList[i]}>{newList[i]}</SearchInfoItem>
+          )
+        } else {
+          break
+        }
+      }
+    }
+
+    if (focused || mouseEnter) {
       return (
-        <SearchInfo>
+        <SearchInfo
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           <SearchInfoTitle>
             热门搜索
-            <SearchInfoSwtich>换一批</SearchInfoSwtich>
+            <SearchInfoSwtich
+              onClick={() => {
+                handleSwitch(page, totalPage, this.spin)
+              }}
+            >
+              <i ref={spin => (this.spin = spin)} className="fas fa-sync" />
+              换一批
+            </SearchInfoSwtich>
           </SearchInfoTitle>
-          <SearchInfoList>
-            {this.props.list.map((item, index) => (
-              <SearchInfoItem key={index}>{item}</SearchInfoItem>
-            ))}
-          </SearchInfoList>
+          <SearchInfoList>{pageList}</SearchInfoList>
         </SearchInfo>
       )
     } else return null
   }
   render() {
+    const { focused, list, handleInputBlur, handleInputFocus } = this.props
     return (
       <HeaderWrapper>
         <Logo />
@@ -48,18 +79,16 @@ class Header extends Component {
             <i className="iconfont">&#xe636;</i>
           </NavItem>
           <SearchWrapper>
-            <CSSTransition
-              in={this.props.focused}
-              timeout={200}
-              classNames="slide"
-            >
+            <CSSTransition in={focused} timeout={200} classNames="slide">
               <NavSearch
-                className={this.props.focused ? 'focused' : ''}
-                onFocus={this.props.handleInputFocus}
-                onBlur={this.props.handleInputBlur}
+                className={focused ? 'focused' : ''}
+                onFocus={() => {
+                  handleInputFocus(list)
+                }}
+                onBlur={handleInputBlur}
               />
             </CSSTransition>
-            <i className={this.props.focused ? 'focused iconfont' : 'iconfont'}>
+            <i className={focused ? 'focused iconfont' : 'iconfont'}>
               &#xe61d;
             </i>
             {this.getListArea()}
@@ -80,18 +109,44 @@ class Header extends Component {
 const mapStateToProps = state => {
   return {
     focused: state.getIn(['header', 'focused']),
-    list: state.getIn(['header', 'list'])
+    list: state.getIn(['header', 'list']),
+    page: state.getIn(['header', 'page']),
+    mouseEnter: state.getIn(['header', 'mouseEnter']),
+    totalPage: state.getIn(['header', 'totalPage'])
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleInputFocus: () => {
+    handleInputFocus: list => {
+      list.size === 0 && dispatch(actionCreator.getList())
       dispatch(actionCreator.getInputFocuse())
-      dispatch(actionCreator.getList())
     },
     handleInputBlur: () => {
       dispatch(actionCreator.getInputBlur())
+    },
+    handleMouseEnter: () => {
+      dispatch(actionCreator.mouseEnter())
+    },
+    handleMouseLeave: () => {
+      dispatch(actionCreator.mouseLeave())
+    },
+    handleSwitch: (page, totalPage, spin) => {
+      let originAngle = spin.style.transform.replace(/[^0-9]/gi, '')
+      if (originAngle) {
+        originAngle = parseInt(originAngle, 10)
+      } else {
+        originAngle = 0
+      }
+      let spinAngle = 360
+      let newAngle = spinAngle + originAngle
+      spin.style.transform = `rotate(${newAngle}deg)`
+
+      if (page < totalPage) {
+        dispatch(actionCreator.switchPage(page + 1))
+      } else {
+        dispatch(actionCreator.switchPage(1))
+      }
     }
   }
 }

@@ -135,6 +135,16 @@ export const SearchInfoTitle = styled.div`
 export const SearchInfoSwtich = styled.span`
   float: right;
   font-size: 13px;
+  cursor: pointer;
+  .fas {
+    display: block;
+    float: left;
+    margin-right: 4px;
+    font-size: 12px;
+    line-height: 20px;
+    transition: all 0.2s ease-in;
+    transform-origin: center center;
+  }
 `
 export const SearchInfoList = styled.div`
   overflow: hidden;

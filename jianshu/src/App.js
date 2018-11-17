@@ -3,6 +3,7 @@ import Header from './common/header'
 import { Provider } from 'react-redux'
 import store from './store'
 import { GlobleStyleFont } from './static/iconfont/iconfont'
+
 class App extends Component {
   render() {
     return (
