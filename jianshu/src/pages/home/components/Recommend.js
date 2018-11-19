@@ -8,15 +8,14 @@ class Recommend extends Component {
       <div>
         <RecommendList>
           {list.map(item => (
-            <RecommendItem key={item.get('id')}>
-              <img className="rec-img" src={item.get('imgUrl')} alt="" />
-            </RecommendItem>
+            <RecommendItem key={item.get('id')} imgUrl={item.get('imgUrl')} />
           ))}
         </RecommendList>
       </div>
     )
   }
 }
+
 const mapState = state => ({
   list: state.getIn(['home', 'RecommendList'])
 })
