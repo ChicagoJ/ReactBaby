@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { HomeWrapper, HomeLeft, HomeRight } from './style'
+import { HomeWrapper, HomeLeft, HomeRight, BackTop } from './style'
 import Topic from './components/Topic'
 import List from './components/List'
 import Writer from './components/Writer'
@@ -7,7 +7,9 @@ import Recommend from './components/Recommend'
 import { connect } from 'react-redux'
 import { actionCreators } from './store/'
 class Home extends Component {
-  state = {}
+  handleScrollTop = () => {
+    window.scrollTo(0, 0)
+  }
   render() {
     return (
       <HomeWrapper>
@@ -24,6 +26,9 @@ class Home extends Component {
           <Recommend />
           <Writer />
         </HomeRight>
+        {this.props.showScroll ? (
+          <BackTop onClick={this.handleScrollTop}>Back to Top</BackTop>
+        ) : null}
       </HomeWrapper>
     )
   }
@@ -38,7 +43,10 @@ const mapDispatch = dispatch => ({
     dispatch(action)
   }
 })
+export const mapState = state => ({
+  showScroll: state.getIn(['home', 'showScroll'])
+})
 export default connect(
-  null,
+  mapState,
   mapDispatch
 )(Home)
