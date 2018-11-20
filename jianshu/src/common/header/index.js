@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { actionCreator } from './store'
 import {
   HeaderWrapper,
@@ -70,7 +71,9 @@ class Header extends Component {
     const { focused, list, handleInputBlur, handleInputFocus } = this.props
     return (
       <HeaderWrapper>
-        <Logo />
+        <Link to="/home">
+          <Logo />
+        </Link>
         <Nav>
           <NavItem className="left active">首页</NavItem>
           <NavItem className="left">下载APP</NavItem>

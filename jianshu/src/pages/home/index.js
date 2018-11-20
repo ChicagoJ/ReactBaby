@@ -34,6 +34,16 @@ class Home extends Component {
   }
   componentDidMount() {
     this.props.changeHomeData()
+    this.bindEvent()
+  }
+  componetWillUnmount() {
+    this.removeEvent()
+  }
+  bindEvent = () => {
+    window.addEventListener('scroll', this.props.changeScrollShow)
+  }
+  removeEvent = () => {
+    window.removeEventListener('scroll', this.props.changeScrollShow)
   }
 }
 
@@ -41,6 +51,14 @@ const mapDispatch = dispatch => ({
   changeHomeData: () => {
     const action = actionCreators.getHomeInfo()
     dispatch(action)
+  },
+  changeScrollShow: () => {
+    const position = document.documentElement.scrollTop
+    if (position > 400) {
+      dispatch(actionCreators.toggleTopShow(true))
+    } else {
+      dispatch(actionCreators.toggleTopShow(false))
+    }
   }
 })
 export const mapState = state => ({
