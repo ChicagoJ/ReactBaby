@@ -28,7 +28,7 @@ class Login extends Component {
         </LoginWrapper>
       )
     } else {
-      return <Redirect to="/home" />
+      return <Redirect to="/" />
     }
   }
 }
